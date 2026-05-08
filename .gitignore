@@ -25,7 +25,7 @@ backend/demo_clips/*.mp4
 backend/demo_clips/*.mov
 backend/demo_clips/*.avi
 backend/demo_clips/*.mkv
-backend/demo_results/
+backend/demo_results/*.json
 
 # ByteTrack / boxmot runtime artifacts
 *.onnx

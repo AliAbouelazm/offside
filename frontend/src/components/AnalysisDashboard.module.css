@@ -1,0 +1,81 @@
+.dashboard { display: flex; flex-direction: column; gap: 20px; }
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.clipInfo { display: flex; flex-direction: column; gap: 2px; }
+
+.clipName {
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: capitalize;
+  letter-spacing: -0.3px;
+}
+
+.clipMeta { color: var(--text-muted); font-size: 12px; }
+
+.tabs {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tab {
+  padding: 8px 18px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab:hover { color: var(--text); }
+
+.activeTab {
+  background: var(--surface2);
+  color: var(--accent);
+}
+
+.content { }
+
+.pitchLayout { display: flex; flex-direction: column; gap: 16px; }
+
+.frameControls {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.frameLabel { color: var(--text-muted); font-size: 12px; }
+
+.scrubber {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.frameAnnotations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
