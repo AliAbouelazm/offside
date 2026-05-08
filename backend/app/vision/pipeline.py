@@ -120,43 +120,42 @@ def process_video(
     formation_tracker = FormationTracker()
     pressing_tracker = PressingTracker()
 
-    # Phase 1 — Tracking
+    # Phase 1 — Tracking (0–60% of progress)
     if on_progress:
-        on_progress({"type": "status", "message": "Tracking players and ball…"})
+        on_progress({"type": "status", "message": "Detecting and tracking players…"})
 
     frame_tracks, frame_images, metadata = tracker.track_video(
         video_path,
         frame_skip=frame_skip,
-        on_progress=lambda f, t: on_progress(
-            {"type": "progress", "phase": "tracking", "frame": f, "total": t,
-             "pct": round(50.0 * f / max(t, 1), 1)}
-        ) if on_progress else None,
+        on_progress=on_progress,
     )
 
-    total_frames = len(frame_tracks)
+    frame_nums = sorted(frame_tracks.keys())
+    total_frames = len(frame_nums)
     if total_frames == 0:
         return {"error": "No frames tracked", "metadata": metadata}
 
     # Phase 2 — Team color assignment from first COLOR_SAMPLE_FRAMES processed frames
     if on_progress:
-        on_progress({"type": "status", "message": "Assigning team colors…"})
+        on_progress({"type": "status", "message": "Assigning team colours…"})
 
-    sample_count = min(COLOR_SAMPLE_FRAMES, total_frames)
+    sample_keys = frame_nums[:min(COLOR_SAMPLE_FRAMES, total_frames)]
     sample_data = [
-        (frame_images[i], frame_tracks[i])
-        for i in range(sample_count)
-        if frame_images[i] is not None
+        (frame_images[k], frame_tracks[k])
+        for k in sample_keys
+        if frame_images.get(k) is not None
     ]
     team_map = _assign_teams(sample_data)
 
-    # Phase 3 — Per-frame analytics
+    # Phase 3 — Per-frame analytics (60–100% of progress)
     if on_progress:
-        on_progress({"type": "status", "message": "Computing analytics…"})
+        on_progress({"type": "status", "message": "Computing formation, pressing and space control…"})
 
     frame_results = []
 
-    for idx, (tracks, frame_img) in enumerate(zip(frame_tracks, frame_images)):
-        frame_num = tracks[0]["frame_num"] if tracks else idx * frame_skip
+    for idx, frame_num in enumerate(frame_nums):
+        tracks = frame_tracks[frame_num]
+        frame_img = frame_images.get(frame_num)
         timestamp = frame_num / max(metadata.get("fps", 25.0), 1.0)
 
         # Homography
@@ -218,7 +217,7 @@ def process_video(
         })
 
         if on_progress:
-            pct = 50.0 + round(50.0 * (idx + 1) / total_frames, 1)
+            pct = 60.0 + round(40.0 * (idx + 1) / total_frames, 1)
             on_progress({"type": "progress", "phase": "analytics",
                          "frame": idx + 1, "total": total_frames, "pct": pct})
 
@@ -226,17 +225,29 @@ def process_video(
     summary = aggregate_metrics(frame_results)
     timeline = build_analytics_timeline(frame_results)
 
-    # Strip heavy polygon data from the top-level result to keep payload lean;
-    # full Voronoi cells are only included in per_frame if caller needs them.
+    def _slim_player(p):
+        return {
+            "track_id": p.get("track_id"),
+            "pitch_x": p.get("pitch_x"),
+            "pitch_y": p.get("pitch_y"),
+            "class_name": p.get("class_name"),
+            "team": p.get("team"),
+        }
+
     per_frame_slim = []
     for f in frame_results:
         slim = {k: v for k, v in f.items()
                 if k not in ("home_players", "away_players", "space")}
+        slim["home_players"] = [_slim_player(p) for p in f["home_players"]
+                                if p.get("pitch_x") is not None]
+        slim["away_players"] = [_slim_player(p) for p in f["away_players"]
+                                if p.get("pitch_x") is not None]
         slim["space"] = {
             "home_pct": f["space"]["home_pct"],
             "away_pct": f["space"]["away_pct"],
             "dangerous_space_home": f["space"]["dangerous_space_home"],
             "dangerous_space_away": f["space"]["dangerous_space_away"],
+            "cells": f["space"].get("cells", []),
         }
         per_frame_slim.append(slim)
 
@@ -248,7 +259,11 @@ def process_video(
     }
 
 
-def process_clip_for_demo(clip_id: str, frame_skip: int = 2) -> dict:
+def process_clip_for_demo(
+    clip_id: str,
+    frame_skip: int = 2,
+    on_progress: Callable[[dict], None] | None = None,
+) -> dict:
     """
     Load a pre-processed demo clip result from demo_results/ or compute it
     from the raw clip in demo_clips/.
@@ -260,6 +275,8 @@ def process_clip_for_demo(clip_id: str, frame_skip: int = 2) -> dict:
 
     # Return cached result if it exists
     if result_path.exists():
+        if on_progress:
+            on_progress({"type": "status", "message": "Loading cached result…"})
         with open(result_path) as f:
             return json.load(f)
 
@@ -274,7 +291,7 @@ def process_clip_for_demo(clip_id: str, frame_skip: int = 2) -> dict:
     if video_path is None:
         return {"error": f"Demo clip '{clip_id}' not found in {DEMO_CLIPS_DIR}"}
 
-    result = process_video(video_path, frame_skip=frame_skip)
+    result = process_video(video_path, frame_skip=frame_skip, on_progress=on_progress)
 
     # Cache the result so subsequent calls are instant
     with open(result_path, "w") as f:

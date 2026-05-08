@@ -9,11 +9,8 @@ from app.vision.detector import Detector, CLASS_NAMES
 
 
 def _make_byte_tracker():
-    from boxmot import ByteTrack
-    try:
-        return ByteTrack(track_thresh=0.5, match_thresh=0.8, track_buffer=30)
-    except TypeError:
-        return ByteTrack()
+    from boxmot.trackers.bytetrack.bytetrack import ByteTrack
+    return ByteTrack(track_thresh=0.45, match_thresh=0.8, track_buffer=30)
 
 
 class Tracker:
@@ -87,9 +84,10 @@ class Tracker:
                 frame_tracks[frame_num] = tracks
                 frame_images[frame_num] = frame.copy()
 
-                if on_progress and frame_num % (frame_skip * 10) == 0:
-                    pct = frame_num / max(total_frames, 1)
-                    on_progress("tracking", pct * 0.5, f"frame {frame_num}/{total_frames}")
+                if on_progress and frame_num % (frame_skip * 5) == 0:
+                    pct = round(60.0 * frame_num / max(total_frames, 1), 1)
+                    on_progress({"type": "progress", "phase": "tracking",
+                                 "frame": frame_num, "total": total_frames, "pct": pct})
 
             frame_num += 1
 

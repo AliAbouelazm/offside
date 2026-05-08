@@ -1,14 +1,20 @@
 import asyncio
 import json
+import mimetypes
 import tempfile
 import os
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Query
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from sse_starlette.sse import EventSourceResponse
 
-from app.vision.pipeline import list_demo_clips, process_clip_for_demo, process_video
+from app.vision.pipeline import (
+    DEMO_CLIPS_DIR,
+    list_demo_clips,
+    process_clip_for_demo,
+    process_video,
+)
 
 router = APIRouter()
 
@@ -17,6 +23,17 @@ router = APIRouter()
 def get_clips():
     """List available demo clips."""
     return list_demo_clips()
+
+
+@router.get("/clips/{clip_id}/video")
+async def get_clip_video(clip_id: str):
+    """Stream the raw video file for a demo clip."""
+    for ext in (".mp4", ".mov", ".avi", ".mkv"):
+        candidate = DEMO_CLIPS_DIR / f"{clip_id}{ext}"
+        if candidate.exists():
+            media_type = mimetypes.guess_type(str(candidate))[0] or "video/mp4"
+            return FileResponse(str(candidate), media_type=media_type)
+    raise HTTPException(status_code=404, detail=f"Video for '{clip_id}' not found")
 
 
 @router.get("/clips/{clip_id}")
@@ -47,7 +64,8 @@ async def analyze_demo_stream(
         async def run_pipeline():
             result = await loop.run_in_executor(
                 None,
-                lambda: process_clip_for_demo(clip_id, frame_skip=frame_skip),
+                lambda: process_clip_for_demo(clip_id, frame_skip=frame_skip,
+                                              on_progress=on_progress),
             )
             await queue.put({"type": "done", "result": result})
 

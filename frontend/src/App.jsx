@@ -6,34 +6,33 @@ import styles from './App.module.css'
 export default function App() {
   const [result, setResult] = useState(null)
   const [activeClip, setActiveClip] = useState(null)
+  const [videoUrl, setVideoUrl] = useState(null)
 
-  function handleResult(clipId, data) {
+  function handleResult(clipId, data, isUpload = false) {
     setActiveClip(clipId)
     setResult(data)
+    setVideoUrl(isUpload ? null : `/api/clips/${clipId}/video`)
   }
 
   function handleBack() {
     setResult(null)
     setActiveClip(null)
+    setVideoUrl(null)
   }
 
   return (
     <div className={styles.app}>
       <header className={styles.header}>
-        <div className={styles.logo}>
-          <span className={styles.logoIcon}>⚽</span>
-          <span className={styles.logoText}>Offside</span>
-        </div>
+        <span className={styles.logoText}>Offside</span>
         {result && (
           <button className={styles.backBtn} onClick={handleBack}>
-            ← Back to clips
+            Back
           </button>
         )}
       </header>
-
       <main className={styles.main}>
         {result ? (
-          <AnalysisDashboard result={result} clipId={activeClip} />
+          <AnalysisDashboard result={result} clipId={activeClip} videoUrl={videoUrl} />
         ) : (
           <ClipSelector onResult={handleResult} />
         )}

@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './TimelineChart.module.css'
 
 const METRICS = [
-  { key: 'pressing_scores',    label: 'Pressing Score',     color: '#00d4ff', max: 100 },
-  { key: 'space_control_home', label: 'Home Space %',       color: '#3b82f6', max: 100 },
-  { key: 'space_control_away', label: 'Away Space %',       color: '#ef4444', max: 100 },
+  { key: 'pressing_scores',    label: 'Pressing Score',     color: '#f59e0b', max: 100 },
+  { key: 'space_control_home', label: 'Home Space %',       color: '#2563eb', max: 100 },
+  { key: 'space_control_away', label: 'Away Space %',       color: '#dc2626', max: 100 },
 ]
 
 const PAD = { top: 20, right: 20, bottom: 40, left: 50 }
@@ -158,9 +158,9 @@ export default function TimelineChart({ timeline }) {
         {hoveredInfo && (
           <div className={styles.tooltip}>
             <div className={styles.tooltipTime}>{hoveredInfo.time}s</div>
-            <div style={{ color: '#00d4ff' }}>Press: {hoveredInfo.press}</div>
-            <div style={{ color: '#3b82f6' }}>Home space: {hoveredInfo.home}%</div>
-            <div style={{ color: '#ef4444' }}>Away space: {hoveredInfo.away}%</div>
+            <div style={{ color: '#f59e0b' }}>Press: {hoveredInfo.press}</div>
+            <div style={{ color: '#2563eb' }}>Home space: {hoveredInfo.home}%</div>
+            <div style={{ color: '#dc2626' }}>Away space: {hoveredInfo.away}%</div>
             <div className={styles.tooltipForm}>
               {hoveredInfo.formHome} / {hoveredInfo.formAway}
             </div>

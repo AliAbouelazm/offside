@@ -1,70 +1,96 @@
-.wrapper { max-width: 900px; margin: 0 auto; }
+.wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
 
 .center { text-align: center; padding: 80px; color: var(--text-muted); }
 
-.hero { text-align: center; margin-bottom: 48px; }
+.pageHeader { display: flex; flex-direction: column; gap: 8px; }
 
 .title {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 12px;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text);
 }
 
 .subtitle {
   color: var(--text-muted);
-  max-width: 520px;
-  margin: 0 auto;
-  font-size: 15px;
+  max-width: 580px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
   color: #fca5a5;
   border-radius: var(--radius);
-  padding: 12px 16px;
-  margin-bottom: 24px;
-  text-align: center;
+  padding: 10px 14px;
+  font-size: 13px;
 }
 
 .progressBox {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px 20px;
-  margin-bottom: 32px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .progressLabel {
-  color: var(--accent);
-  font-size: 13px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.progressPct {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .progressTrack {
   background: var(--surface2);
-  border-radius: 4px;
-  height: 6px;
+  border-radius: 2px;
+  height: 3px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 4px;
+  background: var(--accent);
+  border-radius: 2px;
   transition: width 0.3s ease;
+}
+
+.progressHint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.section { display: flex; flex-direction: column; gap: 14px; }
+
+.sectionHeading {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
 }
 
 .card {
@@ -73,61 +99,51 @@
   border-radius: var(--radius);
   overflow: hidden;
   text-align: left;
-  transition: border-color 0.15s, transform 0.15s;
+  transition: border-color 0.15s;
   position: relative;
 }
 
-.card:hover:not(:disabled) {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
+.card:hover:not(:disabled) { border-color: var(--accent); }
 
-.card:disabled { opacity: 0.6; cursor: not-allowed; }
+.card:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .card.active { border-color: var(--accent); }
 
 .cardThumb {
-  height: 120px;
+  height: 90px;
   background: var(--surface2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.cardIcon {
-  font-size: 28px;
-  color: var(--text-muted);
-}
-
-.cardBody { padding: 14px; }
+.cardBody { padding: 10px 12px 12px; }
 
 .cardTitle {
   font-weight: 600;
+  font-size: 13px;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .cardDesc { color: var(--text-muted); font-size: 12px; }
 
 .cachedBadge {
   display: inline-block;
-  margin-top: 8px;
-  background: rgba(34, 197, 94, 0.15);
+  margin-top: 7px;
+  background: rgba(22, 163, 74, 0.12);
   color: var(--green);
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 11px;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .spinner {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 16px;
-  height: 16px;
+  top: 8px;
+  right: 8px;
+  width: 14px;
+  height: 14px;
   border: 2px solid var(--border);
   border-top-color: var(--accent);
   border-radius: 50%;
@@ -135,3 +151,91 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Upload */
+.uploadPanel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.requirements { flex: 1; min-width: 200px; }
+
+.reqTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.reqList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reqList li {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-left: 14px;
+  position: relative;
+}
+
+.reqList li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 50%;
+}
+
+.uploadActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.fileInput { display: none; }
+
+.fileButton {
+  height: 34px;
+  padding: 0 12px;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: border-color 0.15s;
+}
+
+.fileButton:hover:not(:disabled) { border-color: var(--accent); }
+
+.fileButton:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.analyzeButton {
+  height: 34px;
+  padding: 0 14px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.analyzeButton:disabled { opacity: 0.45; cursor: not-allowed; }

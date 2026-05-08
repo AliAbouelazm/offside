@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  height: 60px;
+  height: 52px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   position: sticky;
@@ -17,39 +17,32 @@
   z-index: 100;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logoIcon { font-size: 22px; }
-
 .logoText {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--accent);
+  letter-spacing: -0.2px;
+  color: var(--text);
 }
 
 .backBtn {
-  background: var(--surface2);
+  background: transparent;
   color: var(--text-muted);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 6px 14px;
+  padding: 5px 12px;
+  font-size: 13px;
   transition: color 0.15s, border-color 0.15s;
 }
 
 .backBtn:hover {
   color: var(--text);
-  border-color: var(--accent);
+  border-color: var(--text-muted);
 }
 
 .main {
   flex: 1;
   padding: 32px;
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
   width: 100%;
 }

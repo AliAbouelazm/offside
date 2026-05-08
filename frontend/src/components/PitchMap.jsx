@@ -9,7 +9,7 @@ const SCALE = 8
 const CW = PW * SCALE
 const CH = PH * SCALE
 
-const TEAM_COLORS = { home: '#3b82f6', away: '#ef4444', referee: '#f59e0b' }
+const TEAM_COLORS = { home: '#2563eb', away: '#dc2626', referee: '#f59e0b' }
 const BALL_COLOR = '#ffffff'
 
 function meterToCanvas(x, y) {
@@ -178,7 +178,7 @@ export default function PitchMap({ frame }) {
         <LegendItem color="var(--home)" label="Home" />
         <LegendItem color="var(--away)" label="Away" />
         <LegendItem color={BALL_COLOR} label="Ball" />
-        <LegendItem color="rgba(59,130,246,0.15)" label="Space control" border="var(--home)" />
+        <LegendItem color="rgba(37,99,235,0.15)" label="Space control" border="var(--home)" />
       </div>
     </div>
   )

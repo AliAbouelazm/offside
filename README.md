@@ -1,5 +1,7 @@
 # Offside
 
+> **Work in progress.** Core pipeline is functional but the UI needs significant work. Not production-ready.
+
 Computer vision and tactical analytics for broadcast soccer footage.
 
 **Live demo:** _coming soon_
