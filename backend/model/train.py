@@ -8,8 +8,8 @@ Usage:
     python model/train.py [--epochs 50] [--batch 16] [--device cuda]
 
 Outputs:
-    model/best.pt        — best checkpoint (used by detector.py)
-    model/train_results/ — training plots and metrics
+    model/best.pt       , best checkpoint (used by detector.py)
+    model/train_results/, training plots and metrics
 """
 import argparse
 import json

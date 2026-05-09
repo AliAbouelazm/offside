@@ -40,8 +40,8 @@ export default function ClipSelector({ onResult }) {
           setProgress(p => ({ ...p, message: evt.message }))
         } else if (evt.type === 'progress') {
           const label = evt.phase === 'tracking'
-            ? `Tracking — frame ${evt.frame} / ${evt.total}`
-            : `Analytics — frame ${evt.frame} / ${evt.total}`
+            ? `Tracking, frame ${evt.frame} / ${evt.total}`
+            : `Analytics, frame ${evt.frame} / ${evt.total}`
           setProgress({ pct: evt.pct || 0, message: label })
         }
       })
@@ -64,8 +64,8 @@ export default function ClipSelector({ onResult }) {
           setUploadProgress(p => ({ ...p, message: evt.message }))
         } else if (evt.type === 'progress') {
           const label = evt.phase === 'tracking'
-            ? `Tracking — frame ${evt.frame} / ${evt.total}`
-            : `Analytics — frame ${evt.frame} / ${evt.total}`
+            ? `Tracking, frame ${evt.frame} / ${evt.total}`
+            : `Analytics, frame ${evt.frame} / ${evt.total}`
           setUploadProgress({ pct: evt.pct || 0, message: label })
         }
       })
@@ -135,7 +135,7 @@ export default function ClipSelector({ onResult }) {
         {uploading && (
           <ProgressBox
             progress={uploadProgress}
-            hint="Processing uploaded clip — this may take several minutes on CPU."
+            hint="Processing uploaded clip, this may take several minutes on CPU."
           />
         )}
         <div className={styles.uploadPanel}>
@@ -144,7 +144,7 @@ export default function ClipSelector({ onResult }) {
             <ul className={styles.reqList}>
               <li>Broadcast or fixed tactical camera angle</li>
               <li>Full pitch or at least half the pitch visible</li>
-              <li>MP4, MOV, or AVI — max 500 MB</li>
+              <li>MP4, MOV, or AVI, max 500 MB</li>
               <li>Minimum 10 seconds, 25 fps recommended</li>
             </ul>
           </div>

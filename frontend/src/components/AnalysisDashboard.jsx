@@ -75,7 +75,7 @@ export default function AnalysisDashboard({ result, clipId, videoUrl }) {
               </div>
             ) : (
               <div className={styles.noVideo}>
-                <span>No video — uploaded clips do not persist on the server</span>
+                <span>No video, uploaded clips do not persist on the server</span>
               </div>
             )}
             <div className={styles.pitchPane}>
@@ -92,7 +92,7 @@ export default function AnalysisDashboard({ result, clipId, videoUrl }) {
               />
               <Tag
                 color={frame.team_with_ball === 'home' ? 'var(--home)' : 'var(--away)'}
-                label={`Ball  ${frame.team_with_ball ?? '—'}`}
+                label={`Ball  ${frame.team_with_ball ?? '-'}`}
               />
             </div>
             <div className={styles.scrubWrap}>

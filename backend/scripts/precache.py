@@ -24,13 +24,13 @@ def main():
     for clip in clips:
         cid = clip["id"]
         if clip.get("has_cache"):
-            print(f"  {cid} — already cached, skipping")
+            print(f"  {cid}, already cached, skipping")
             continue
         if not clip.get("has_video"):
-            print(f"  {cid} — no video file, skipping")
+            print(f"  {cid}, no video file, skipping")
             continue
 
-        print(f"  {cid} — processing...")
+        print(f"  {cid}, processing...")
 
         def on_progress(evt):
             if evt.get("type") == "progress":
@@ -50,7 +50,7 @@ def main():
             print(f"  ERROR: {result['error']}")
         else:
             frames = len(result.get("per_frame", []))
-            print(f"  {cid} — done ({frames} frames)")
+            print(f"  {cid}, done ({frames} frames)")
 
     print("\nAll done. Restart the backend and demo clips will load instantly.")
 

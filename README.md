@@ -71,7 +71,7 @@ Five broadcast clips are pre-loaded in `backend/demo_clips/`:
 
 ## Deployment
 
-- Backend: HuggingFace Spaces (Docker) — see `backend/Dockerfile`
-- Frontend: Vercel — set `VITE_API_URL` to your HF Space URL
+- Backend: HuggingFace Spaces (Docker), see `backend/Dockerfile`
+- Frontend: Vercel, set `VITE_API_URL` to your HF Space URL
 
 > Work in progress

@@ -2,9 +2,9 @@
 Evaluate the fine-tuned (or fallback) YOLOv8 model on a held-out set.
 
 Produces:
-  model/eval_results/detection_metrics.json   — mAP, precision, recall per class
+  model/eval_results/detection_metrics.json  , mAP, precision, recall per class
   model/eval_results/confusion_matrix.png
-  model/eval_results/sample_{i}.jpg           — 10 annotated sample images
+  model/eval_results/sample_{i}.jpg          , 10 annotated sample images
 
 Usage:
     python model/evaluate.py [--weights model/best.pt] [--source path/to/images]
@@ -92,7 +92,7 @@ def evaluate(weights: str | None = None, source: str | None = None, sample_count
     print(f"Metrics saved to {EVAL_DIR / 'detection_metrics.json'}")
 
     # ------------------------------------------------------------------
-    # Sample visualizations — run inference on whatever images are available
+    # Sample visualizations, run inference on whatever images are available
     # ------------------------------------------------------------------
     image_paths: list[Path] = []
 
@@ -105,7 +105,7 @@ def evaluate(weights: str | None = None, source: str | None = None, sample_count
             image_paths = [src_path]
 
     if not image_paths:
-        print("No sample images provided for visualization — skipping sample generation.")
+        print("No sample images provided for visualization, skipping sample generation.")
         return metrics_data
 
     image_paths = image_paths[:sample_count]

@@ -80,8 +80,8 @@ def _assign_teams(
     labels = km.fit_predict(features)
 
     # Identify referee cluster: highest V (brightness) and lowest S (saturation)
-    centers = km.cluster_centers_  # shape (n_clusters, 3) — H, S, V
-    # Referees typically wear black (low V) or bright yellow (high S, high V) —
+    centers = km.cluster_centers_  # shape (n_clusters, 3), H, S, V
+    # Referees typically wear black (low V) or bright yellow (high S, high V) -
     # simplest heuristic: fewest players in a cluster is likely referee cluster
     cluster_counts = np.bincount(labels, minlength=n_clusters)
     ref_cluster = int(np.argmin(cluster_counts))
@@ -120,7 +120,7 @@ def process_video(
     formation_tracker = FormationTracker()
     pressing_tracker = PressingTracker()
 
-    # Phase 1 — Tracking (0–60% of progress)
+    # Phase 1, Tracking (0–60% of progress)
     if on_progress:
         on_progress({"type": "status", "message": "Detecting and tracking players…"})
 
@@ -135,7 +135,7 @@ def process_video(
     if total_frames == 0:
         return {"error": "No frames tracked", "metadata": metadata}
 
-    # Phase 2 — Team color assignment from first COLOR_SAMPLE_FRAMES processed frames
+    # Phase 2, Team color assignment from first COLOR_SAMPLE_FRAMES processed frames
     if on_progress:
         on_progress({"type": "status", "message": "Assigning team colours…"})
 
@@ -147,7 +147,7 @@ def process_video(
     ]
     team_map = _assign_teams(sample_data)
 
-    # Phase 3 — Per-frame analytics (60–100% of progress)
+    # Phase 3, Per-frame analytics (60–100% of progress)
     if on_progress:
         on_progress({"type": "status", "message": "Computing formation, pressing and space control…"})
 
@@ -221,7 +221,7 @@ def process_video(
             on_progress({"type": "progress", "phase": "analytics",
                          "frame": idx + 1, "total": total_frames, "pct": pct})
 
-    # Phase 4 — Aggregate
+    # Phase 4, Aggregate
     summary = aggregate_metrics(frame_results)
     timeline = build_analytics_timeline(frame_results)
 
